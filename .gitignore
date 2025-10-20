@@ -1,0 +1,99 @@
+# === OS / Editor files ===
+# macOS
+.DS_Store
+# Thumbs
+Thumbs.db
+
+# Vim swap files
+*.swp
+
+# JetBrains
+.idea/
+
+# VSCode
+.vscode/
+
+# === Python / Django ===
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+hypothesis/
+pytest_debug.log
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+media
+
+# If you use migrations folders and want to ignore pyc files inside them
+# **/migrations/*.pyc
+
+# Static files collected
+staticfiles/
+
+# Poetry
+.venv/
+poetry.lock
+
+# === Node / Frontend ===
+frontend/airport-frontend/node_modules/
+frontend/airport-frontend/build/
+frontend/airport-frontend/.env
+frontend/airport-frontend/.cache/
+
+# npm/yarn
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# === Docker ===
+/.docker/
+docker-compose.override.yml
+.env
+
+# Docker images / volumes
+**/docker/*.tar
+
+# === Misc ===
+*.sqlite3
+*.db
+*.pem
+

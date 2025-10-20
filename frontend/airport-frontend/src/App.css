@@ -1,0 +1,251 @@
+/* 1. ESTILOS GLOBAIS E VARIÁVEIS */
+:root {
+  --primary-blue: #007bff;
+  --primary-blue-dark: #0056b3;
+  --status-success: #28a745;
+  --status-error: #dc3545;
+  --status-running: #ffc107;
+  --background-color: #f4f7fa;
+  --content-background: #ffffff;
+  --text-primary: #333;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+/* 2. LAYOUT PRINCIPAL (App.js) */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: var(--content-background);
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem 1rem;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+}
+
+.sidebar-nav ul {
+  list-style-type: none;
+}
+
+.sidebar-nav a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-nav a:hover {
+  background-color: #e9ecef;
+}
+
+.sidebar-nav a.active {
+  background-color: var(--primary-blue);
+  color: white;
+  font-weight: 600;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* 3. COMPONENTES REUTILIZÁVEIS (CLASSES GLOBAIS) */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.page-header h1 {
+  font-size: 1.75rem;
+}
+
+.card {
+  background-color: var(--content-background);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+}
+
+.button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: var(--primary-blue);
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: var(--primary-blue-dark);
+}
+
+.button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th, .table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table th {
+  background-color: #f8f9fa;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+.table tbody tr.clickable {
+  cursor: pointer;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: var(--primary-blue);
+  animation: spin 1s ease infinite;
+  margin: 2rem auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.notification {
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+}
+.notification.success { background-color: var(--status-success); }
+.notification.error { background-color: var(--status-error); }
+
+
+/* 4. ESTILOS ESPECÍFICOS DE PÁGINAS */
+
+/* Dashboard */
+.search-bar {
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
+/* Import */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+/* Logs & LogDetail */
+.status-pill {
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.status-pill.SUCCESS { background-color: var(--status-success); }
+.status-pill.FAILURE { background-color: var(--status-error); }
+.status-pill.RUNNING { background-color: var(--status-running); color: var(--text-primary); }
+
+.log-detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.log-detail-item:last-child {
+  border: none;
+}
+.log-detail-item strong { color: var(--text-secondary); }
+
+.iata-list {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 5px;
+  word-break: break-all;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+
+/* 5. RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+  }
+  .sidebar-header { margin-bottom: 0; font-size: 1.2rem; }
+  .sidebar-nav ul { display: flex; }
+  .sidebar-nav a { margin: 0 0.25rem; }
+  .main-content { padding: 1rem; }
+  .page-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}

@@ -1,0 +1,94 @@
+{
+    "summary": {
+        "departure_date": "2022-06-12",
+        "from": {
+            "iata": "POA",
+            "city": "Porto Alegre",
+            "lat": -29.98961,
+            "lon": -51.17709,
+            "state": "RS"
+        },
+        "to": {
+            "iata": "MAO",
+            "city": "Manaus",
+            "lat": -3.031327,
+            "lon": -60.046093,
+            "state": "AM"
+        },
+        "currency": "BRL"
+    },
+    "options": [
+        {
+            "departure_time": "2022-06-12T12:50:00",
+            "arrival_time": "2022-06-12T16:37:00",
+            "price": {
+                "fare": 2111.54,
+                "fees": 0.0,
+                "total": 0.0
+            },
+            "aircraft": {
+                "model": "A 320",
+                "manufacturer": "Airbus"
+            },
+            "meta": {
+                "range": 0,
+                "cruise_speed_kmh": 0,
+                "cost_per_km": 0.0
+            }
+        },
+        {
+            "departure_time": "2022-06-12T07:35:00",
+            "arrival_time": "2022-06-12T11:03:00",
+            "price": {
+                "fare": 2268.58,
+                "fees": 0.0,
+                "total": 0.0
+            },
+            "aircraft": {
+                "model": "777-200",
+                "manufacturer": "Boeing"
+            },
+            "meta": {
+                "range": 0,
+                "cruise_speed_kmh": 0,
+                "cost_per_km": 0.0
+            }
+        },
+        {
+            "departure_time": "2022-06-12T00:15:00",
+            "arrival_time": "2022-06-12T03:30:00",
+            "price": {
+                "fare": 2111.54,
+                "fees": 0.0,
+                "total": 0.0
+            },
+            "aircraft": {
+                "model": "737-800",
+                "manufacturer": "Boeing"
+            },
+            "meta": {
+                "range": 0,
+                "cruise_speed_kmh": 0,
+                "cost_per_km": 0.0
+            }
+        },
+        {
+            "departure_time": "2022-06-12T08:20:00",
+            "arrival_time": "2022-06-12T09:46:00",
+            "price": {
+                "fare": 55348.63,
+                "fees": 0.0,
+                "total": 0.0
+            },
+            "aircraft": {
+                "model": "F-16 Falcon",
+                "manufacturer": "Lockheed"
+            },
+            "meta": {
+                "range": 0,
+                "cruise_speed_kmh": 0,
+                "cost_per_km": 0.0
+            }
+        }
+    ]
+}
