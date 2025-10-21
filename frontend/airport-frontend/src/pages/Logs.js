@@ -8,9 +8,9 @@ import {
 
 const getStatusChip = (status) => {
   const statusMap = {
-    SUCCESS: { label: 'Sucesso', color: 'success' },
-    FAILURE: { label: 'Falha', color: 'error' },
-    RUNNING: { label: 'Em Execução', color: 'warning' },
+     SUCCESS: { label: 'Success', color: 'success' },
+     FAILURE: { label: 'Failure', color: 'error' },
+     RUNNING: { label: 'Running', color: 'warning' },
   };
   const { label, color } = statusMap[status] || { label: status, color: 'default' };
   return <Chip label={label} color={color} />;
@@ -28,7 +28,7 @@ const Logs = () => {
         const response = await getImportLogs();
         setLogs(response.data);
       } catch (err) {
-        setError('Falha ao buscar o histórico.');
+        setError('Failed to fetch sync history.');
       } finally {
         setLoading(false);
       }
@@ -38,8 +38,8 @@ const Logs = () => {
 
   return (
     <Container maxWidth="lg">
-      <Typography variant="h4" gutterBottom>
-        Histórico de Sincronização
+        <Typography variant="h4" gutterBottom>
+          Synchronization History
       </Typography>
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
@@ -51,11 +51,11 @@ const Logs = () => {
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
-              <TableRow>
-                <TableCell>Data de Início</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Criados</TableCell>
-                <TableCell>Atualizados</TableCell>
+                <TableRow>
+                  <TableCell>Start Time</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Created</TableCell>
+                  <TableCell>Updated</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

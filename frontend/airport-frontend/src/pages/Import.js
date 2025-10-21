@@ -14,11 +14,11 @@ const Import = () => {
     setFeedback({ message: '', type: '' });
     try {
       await triggerImport(user, password);
-      setFeedback({ message: 'Sincronização iniciada com sucesso!', type: 'success' });
+      setFeedback({ message: 'Synchronization started successfully!', type: 'success' });
       setUser('');
       setPassword('');
     } catch (err) {
-      setFeedback({ message: 'Erro ao iniciar sincronização. Verifique as credenciais.', type: 'error' });
+      setFeedback({ message: 'Failed to start synchronization. Check credentials and try again.', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -27,12 +27,12 @@ const Import = () => {
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" gutterBottom>
-        Importação Manual de Aeroportos
+        Manual Airport Import
       </Typography>
       <Paper sx={{ p: 4 }}>
         <Box component="form" onSubmit={handleSubmit}>
-          <TextField
-            label="Usuário"
+      <TextField
+        label="User"
             variant="outlined"
             fullWidth
             required
@@ -41,7 +41,7 @@ const Import = () => {
             onChange={(e) => setUser(e.target.value)}
           />
           <TextField
-            label="Senha"
+            label="Password"
             type="password"
             variant="outlined"
             fullWidth
@@ -52,7 +52,7 @@ const Import = () => {
           />
           <Box sx={{ mt: 2, position: 'relative' }}>
             <Button type="submit" variant="contained" fullWidth disabled={loading}>
-              Iniciar Sincronização
+              Start Synchronization
             </Button>
             {loading && (
               <CircularProgress
@@ -68,11 +68,11 @@ const Import = () => {
             )}
           </Box>
         </Box>
-        {feedback.message && (
-          <Alert severity={feedback.type} sx={{ mt: 3 }}>
-            {feedback.message}
-          </Alert>
-        )}
+          {feedback.message && (
+            <Alert severity={feedback.type} sx={{ mt: 3 }}>
+              {feedback.message}
+            </Alert>
+          )}
       </Paper>
     </Container>
   );

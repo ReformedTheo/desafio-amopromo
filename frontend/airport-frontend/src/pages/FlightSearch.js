@@ -11,7 +11,7 @@ const FlightSearch = () => {
     to: '',
     departureDate: '',
     returnDate: '',
-    apiAuthToken: '', // State to hold the API token
+    apiAuthToken: '', 
   });
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -28,11 +28,10 @@ const FlightSearch = () => {
     setResults(null);
 
     try {
-      // Pass all params, including the token, to the service function
       const response = await searchFlights(params);
       setResults(response.data);
     } catch (err) {
-      const errorMessage = err.response?.data?.error || 'Erro ao buscar voos. Tente novamente.';
+      const errorMessage = err.response?.data?.error || 'Failed to search flights. Please try again.';
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -43,14 +42,11 @@ const FlightSearch = () => {
     <Box mt={2}>
       <Typography variant="h6">{title}</Typography>
       <List dense>
-        {/* Note: The mock API response does not include flight_number, origin, or destination.
-             This rendering part might need adjustment based on the actual API response structure.
-             For now, using what's available in the provided data. */}
         {flights.map((flight, index) => (
           <ListItem key={index}>
             <ListItemText
-              primary={`Aeronave: ${flight.aircraft.manufacturer} ${flight.aircraft.model}`}
-              secondary={`Partida: ${new Date(flight.departure_time).toLocaleString()} - Chegada: ${new Date(flight.arrival_time).toLocaleString()}`}
+              primary={`Aircraft: ${flight.aircraft.manufacturer} ${flight.aircraft.model}`}
+              secondary={`Departure: ${new Date(flight.departure_time).toLocaleString()} - Arrival: ${new Date(flight.arrival_time).toLocaleString()}`}
             />
           </ListItem>
         ))}
@@ -61,7 +57,7 @@ const FlightSearch = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h4" gutterBottom>
-        Buscar Voos
+        Flight Search
       </Typography>
       <Paper sx={{ p: 4 }}>
         <Box component="form" onSubmit={handleSubmit}>
@@ -69,7 +65,7 @@ const FlightSearch = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 name="from"
-                label="Origem (IATA)"
+                label="Origin (IATA)"
                 variant="outlined"
                 fullWidth
                 required
@@ -81,7 +77,7 @@ const FlightSearch = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 name="to"
-                label="Destino (IATA)"
+                label="Destination (IATA)"
                 variant="outlined"
                 fullWidth
                 required
@@ -93,7 +89,7 @@ const FlightSearch = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 name="departureDate"
-                label="Data de Partida"
+                label="Departure Date"
                 type="date"
                 variant="outlined"
                 fullWidth
@@ -106,7 +102,7 @@ const FlightSearch = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 name="returnDate"
-                label="Data de Retorno"
+                label="Return Date"
                 type="date"
                 variant="outlined"
                 fullWidth
@@ -116,7 +112,6 @@ const FlightSearch = () => {
                 InputLabelProps={{ shrink: true }}
               />
             </Grid>
-            {/* New API Token Field */}
             <Grid item xs={12}>
               <TextField
                 name="apiAuthToken"
@@ -132,7 +127,7 @@ const FlightSearch = () => {
           </Grid>
           <Box sx={{ mt: 3, position: 'relative' }}>
             <Button type="submit" variant="contained" fullWidth disabled={loading}>
-              Buscar
+              Search
             </Button>
             {loading && (
               <CircularProgress
@@ -149,26 +144,26 @@ const FlightSearch = () => {
       {results && (
         <Box mt={4}>
           <Typography variant="h5" gutterBottom>
-            Resultados da Busca
+            Search Results
           </Typography>
           {results.combinations && results.combinations.length > 0 ? (
             results.combinations.map((combo, index) => (
               <Paper key={index} sx={{ p: 2, mb: 2 }}>
                 <Typography variant="h6" color="primary">
-                  Opção {index + 1} - Preço Total: {combo.price.currency} {combo.price.total.toFixed(2)}
+                  Option {index + 1} - Total Price: {combo.price.currency} {combo.price.total.toFixed(2)}
                 </Typography>
                 <Divider sx={{ my: 1 }} />
-                {renderFlightDetails([combo.outbound_flight], 'Voo de Ida')}
+                {renderFlightDetails([combo.outbound_flight], 'Outbound Flight')}
                 {combo.inbound_flight && (
                   <>
                     <Divider sx={{ my: 1 }} />
-                    {renderFlightDetails([combo.inbound_flight], 'Voo de Volta')}
+                    {renderFlightDetails([combo.inbound_flight], 'Inbound Flight')}
                   </>
                 )}
               </Paper>
             ))
           ) : (
-            <Alert severity="info">Nenhuma combinação de voos encontrada para os critérios informados.</Alert>
+            <Alert severity="info">No flight combinations found for the given criteria.</Alert>
           )}
         </Box>
       )}

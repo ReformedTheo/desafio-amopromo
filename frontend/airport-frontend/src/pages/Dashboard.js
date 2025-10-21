@@ -22,7 +22,7 @@ const Dashboard = () => {
         const response = await getAirports();
         setAirports(response.data);
       } catch (err) {
-        setError('Falha ao buscar os aeroportos.');
+        setError('Failed to fetch airports.');
       } finally {
         setLoading(false);
       }
@@ -43,11 +43,11 @@ const Dashboard = () => {
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" gutterBottom>
-        Painel de Aeroportos
+        Airports Dashboard
       </Typography>
       <Box sx={{ mb: 3 }}>
         <TextField
-          label="Filtrar por cidade ou IATA"
+          label="Filter by city or IATA"
           variant="outlined"
           fullWidth
           value={searchTerm}
@@ -66,8 +66,8 @@ const Dashboard = () => {
             <TableHead>
               <TableRow>
                 <TableCell>IATA</TableCell>
-                <TableCell>Cidade</TableCell>
-                <TableCell>Estado</TableCell>
+                <TableCell>City</TableCell>
+                <TableCell>State</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

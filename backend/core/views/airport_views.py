@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from core.models.airport_model import Airport
 from core.services import import_airports_from_api
+from core.utils.logging_utils import log_info, log_error
 
 
 load_dotenv()
@@ -34,8 +35,10 @@ class AirportImportView(View):
         password = request.POST.get("password")
         try:
             result = import_airports_from_api(user=user, password=password)
+            log_info('core.views.airport_views', f'Airport import triggered by user={user or "N/A"} result={result.get("status")}')
             return JsonResponse(result)
         except Exception as e:
+            log_error('core.views.airport_views', f'Airport import failed: {str(e)}', {'error': str(e)})
             return HttpResponseBadRequest(str(e))
 
 

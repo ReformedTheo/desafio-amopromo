@@ -23,7 +23,7 @@ const Sidebar = () => {
     >
       <Toolbar>
         <Typography variant="h6" noWrap>
-          Painel de Controle
+          Control Panel
         </Typography>
       </Toolbar>
       <List>

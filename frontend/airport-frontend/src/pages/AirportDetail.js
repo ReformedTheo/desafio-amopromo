@@ -27,7 +27,7 @@ const AirportDetail = () => {
         const response = await getAirportByIataCode(iata);
         setAirport(response.data);
       } catch (err) {
-        setError('Falha ao buscar detalhes do aeroporto.');
+        setError('Failed to fetch airport details.');
       } finally {
         setLoading(false);
       }
@@ -48,17 +48,17 @@ const AirportDetail = () => {
   }
 
   if (!airport) {
-    return <Typography align="center">Aeroporto não encontrado.</Typography>;
+    return <Typography align="center">Airport not found.</Typography>;
   }
 
   return (
     <Container maxWidth="md">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4">
-          Detalhes do Aeroporto
+          Airport Details
         </Typography>
         <Button variant="outlined" onClick={() => navigate('/')}>
-          Voltar para a Lista
+          Back to List
         </Button>
       </Box>
       <Paper sx={{ p: 4 }}>
@@ -68,6 +68,9 @@ const AirportDetail = () => {
           <DetailItem title="Estado" content={airport.state} />
           <DetailItem title="Latitude" content={airport.lat || 'N/A'} />
           <DetailItem title="Longitude" content={airport.lon || 'N/A'} />
+          <DetailItem title="IATA Code" content={airport.iata} />
+          <DetailItem title="City" content={airport.city} />
+          <DetailItem title="State" content={airport.state} />
         </Grid>
       </Paper>
     </Container>

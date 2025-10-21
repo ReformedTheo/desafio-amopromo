@@ -6,7 +6,7 @@ import Import from './pages/Import';
 import Logs from './pages/Logs';
 import LogDetail from './pages/LogDetail';
 import AirportDetail from './pages/AirportDetail';
-import FlightSearch from './pages/FlightSearch'; // Importar a nova página
+import FlightSearch from './pages/FlightSearch'; 
 
 function App() {
   return (
@@ -17,7 +17,6 @@ function App() {
         <Route path="/import" element={<Import />} />
         <Route path="/logs" element={<Logs />} />
         <Route path="/logs/:id" element={<LogDetail />} />
-        {/* Adicionar a nova rota para a busca de voos */}
         <Route path="/flights_integration" element={<FlightSearch />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

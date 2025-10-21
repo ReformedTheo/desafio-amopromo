@@ -3,8 +3,20 @@ import requests
 from requests.auth import HTTPBasicAuth
 from django.utils import timezone
 
+import datetime
+import math
+from typing import Dict, Any, List
+
 from .models.airport_model import Airport
 from .models.import_log_model import ImportLogModel
+from .utils.logging_utils import log_warning, log_error
+
+
+MOCK_API_KEY = os.getenv("MOCK_API_KEY", "demo_key")
+MOCK_API_BASE_URL = os.getenv("MOCK_API_BASE_URL")
+MOCK_API_USER = os.getenv("MOCK_API_USER", "demo")
+MOCK_API_PASSWORD = os.getenv("MOCK_API_PASSWORD", "swnvlD")
+EARTH_RADIUS_KM = 6371.0
 
 def import_airports_from_api(user=None, password=None):
 
@@ -38,6 +50,7 @@ def import_airports_from_api(user=None, password=None):
             
             airports_in_api.append(iata_code)
 
+            # Create new airport or update existing one based on IATA code
             obj, created = Airport.objects.update_or_create(
                 iata=iata_code,
                 defaults={
@@ -58,10 +71,13 @@ def import_airports_from_api(user=None, password=None):
 
     except requests.exceptions.RequestException as e:
         log_entry.details = f"Failed to fetch data from API: {str(e)}"
+        log_warning('core.services', f"API request failed while importing airports: {str(e)}", {'error': str(e)})
     except Exception as e:
         log_entry.details = f"An unexpected error occurred: {str(e)}"
+        log_error('core.services', f"Unexpected error during import_airports_from_api: {str(e)}", {'error': str(e)})
     
     finally:
+        # Save import statistics regardless of success or failure
         log_entry.airports_created = len(created_iata_list)
         log_entry.airports_updated = len(updated_iata_list)
         log_entry.created_iatas = created_iata_list
@@ -79,21 +95,6 @@ def import_airports_from_api(user=None, password=None):
     }
 
 
-import datetime
-import math
-import requests
-from requests.auth import HTTPBasicAuth
-from typing import Dict, Any, List
-
-from core.models.airport_model import Airport
-
-
-MOCK_API_BASE_URL = "https://stub-850169372117.us-central1.run.app//air/search"
-MOCK_API_KEY = "pzrvlDwoCwlzrWJmOzviqvOWtm4dkvuc"
-MOCK_API_USER = "demo"
-MOCK_API_PASSWORD = "swnvlD"
-EARTH_RADIUS_KM = 6371.0
-
 def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """Calculates the distance between two points in km using the Haversine formula."""
     lat1_rad, lon1_rad, lat2_rad, lon2_rad = map(math.radians, [lat1, lon1, lat2, lon2])
@@ -107,6 +108,7 @@ def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
     return distance
 
 def calculate_price(fare: float) -> Dict[str, float]:
+    # Fee is 10% of fare with a minimum of R$40
     fee = max(fare * 0.10, 40.0)
     total = fare + fee
     return {
@@ -124,6 +126,7 @@ def calculate_meta(flight: Dict[str, Any], distance: float) -> Dict[str, Any]:
     duration = arrival_time - departure_time
     duration_in_hours = duration.total_seconds() / 3600
 
+    # Calculate average speed during flight
     cruise_speed_kmh = distance / duration_in_hours if duration_in_hours > 0 else 0
     cost_per_km = flight['price']['fare'] / distance if distance > 0 else 0
 
@@ -144,12 +147,14 @@ def fetch_flights_from_api(departure_airport: str, arrival_airport: str, date: s
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
+        log_warning('core.services', f"Error fetching data from Mock Airlines API: {str(e)}", {'url': url, 'error': str(e)})
         raise ConnectionError(f"Error fetching data from Mock Airlines API: {e}") from e
 
 def process_flight_options(api_response: Dict[str, Any], distance: float) -> List[Dict[str, Any]]:
     processed_flights = []
     for flight in api_response.get("options", []):
         raw_fare = flight.get("price", {}).get("fare", 0.0)
+        # Recalculate price with fees and add flight metadata
         flight["price"] = calculate_price(raw_fare)
         flight["meta"] = calculate_meta(flight, distance)
         processed_flights.append(flight)
@@ -182,6 +187,11 @@ def find_flight_combinations(
         origin_airport = Airport.objects.get(iata__iexact=origin_iata)
         destination_airport = Airport.objects.get(iata__iexact=destination_iata)
     except Airport.DoesNotExist:
+        log_warning(
+            'core.services',
+            f"Airport lookup failed for origin={origin_iata} destination={destination_iata}",
+            {'origin': origin_iata, 'destination': destination_iata}
+        )
         raise ValueError("One or both airports could not be found in our database.")
 
     distance_km = calculate_distance(
@@ -210,7 +220,8 @@ def find_flight_combinations(
                 }
             }
             flight_combinations.append(combination)
-    flight_combinations.sort(key=lambda x: x['price']['total'])
+    # Sort combinations by total price (lambda sorts lower price first by the use of magic), get is used to avoid KeyError in lambda function
+    flight_combinations.sort(key=lambda x: x.get('price', {}).get('total', float('inf')))
     return {
         "summary": {
             "from": origin_iata.upper(),

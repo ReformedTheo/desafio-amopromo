@@ -4,10 +4,10 @@ const api = axios.create({
   baseURL: 'http://127.0.0.1:8000/api/',
 });
 
-// --- Funções da API de Aeroportos ---
+// --- Airport API functions ---
 
 /**
- * Busca a lista de todos os aeroportos.
+ * Fetch the list of all airports.
  * @returns {Promise<Array<object>>}
  */
 export const getAirports = () => {
@@ -15,9 +15,9 @@ export const getAirports = () => {
 };
 
 /**
- * Dispara a sincronização de aeroportos.
- * @param {string} user - O nome do usuário.
- * @param {string} password - A senha.
+ * Trigger the airports synchronization process.
+ * @param {string} user - Username for external API (if required).
+ * @param {string} password - Password for external API (if required).
  * @returns {Promise<object>}
  */
 export const triggerImport = (user, password) => {
@@ -30,10 +30,10 @@ export const triggerImport = (user, password) => {
   });
 };
 
-// --- Funções da API de Logs ---
+// --- Import Logs API functions ---
 
 /**
- * Busca o histórico de sincronizações.
+ * Fetch synchronization history logs.
  * @returns {Promise<Array<object>>}
  */
 export const getImportLogs = () => {
@@ -41,8 +41,8 @@ export const getImportLogs = () => {
 };
 
 /**
- * Busca os detalhes de um log específico.
- * @param {number} id - O ID do log.
+ * Fetch details for a specific import log.
+ * @param {number} id - Log ID.
  * @returns {Promise<object>}
  */
 export const getImportLogById = (id) => {
@@ -50,8 +50,8 @@ export const getImportLogById = (id) => {
 };
 
 /**
- * Busca os detalhes de um aeroporto específico pelo ID.
- * @param {string} iata - O código IATA do aeroporto.
+ * Fetch details for a specific airport by IATA code.
+ * @param {string} iata - Airport IATA code.
  * @returns {Promise<object>}
  */
 export const getAirportByIataCode = (iata) => {
@@ -59,17 +59,16 @@ export const getAirportByIataCode = (iata) => {
 };
 
 
-// --- Funções da API de Voos ---
-
+// --- Flights API functions ---
 
 /**
- * Busca combinações de voos com base nos critérios de pesquisa.
- * @param {object} params - Os parâmetros de busca.
- * @param {string} params.from - IATA do aeroporto de origem.
- * @param {string} params.to - IATA do aeroporto de destino.
- * @param {string} params.departureDate - Data de partida (YYYY-MM-DD).
- * @param {string} [params.returnDate] - Data do retorno opcional
- * @param {string} params.apiAuthToken - Auth Token.
+ * Search for flight combinations based on search criteria.
+ * @param {object} params - Search parameters.
+ * @param {string} params.from - Origin IATA.
+ * @param {string} params.to - Destination IATA.
+ * @param {string} params.departureDate - Departure date (YYYY-MM-DD).
+ * @param {string} [params.returnDate] - Optional return date.
+ * @param {string} params.apiAuthToken - API auth token.
  * @returns {Promise<object>}
  */
 export const searchFlights = ({ from, to, departureDate, returnDate, apiAuthToken }) => {

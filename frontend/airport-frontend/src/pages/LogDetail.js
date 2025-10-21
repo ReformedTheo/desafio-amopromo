@@ -23,7 +23,7 @@ const LogDetail = () => {
         const response = await getImportLogById(id);
         setLog(response.data);
       } catch (err) {
-        setError('Falha ao buscar detalhes do log.');
+        setError('Failed to fetch log details.');
       } finally {
         setLoading(false);
       }
@@ -33,39 +33,39 @@ const LogDetail = () => {
 
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
-  if (!log) return <Typography>Log não encontrado.</Typography>;
+  if (!log) return <Typography>Log not found.</Typography>;
 
   return (
     <Container maxWidth="md">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Typography variant="h4">
-          Detalhes da Sincronização #{log.id}
+          Synchronization Details #{log.id}
         </Typography>
-        <Button variant="outlined" onClick={() => navigate('/logs')}>Voltar</Button>
+        <Button variant="outlined" onClick={() => navigate('/logs')}>Back</Button>
       </Box>
       <Paper sx={{ p: 3 }}>
         <Grid container spacing={2}>
           <DetailItem title="Status" content={log.status} />
-          <DetailItem title="Início" content={new Date(log.start_time).toLocaleString()} />
-          <DetailItem title="Fim" content={log.end_time ? new Date(log.end_time).toLocaleString() : 'N/A'} />
-          <DetailItem title="Criados" content={log.airports_created} />
-          <DetailItem title="Atualizados" content={log.airports_updated} />
+          <DetailItem title="Start" content={new Date(log.start_time).toLocaleString()} />
+          <DetailItem title="End" content={log.end_time ? new Date(log.end_time).toLocaleString() : 'N/A'} />
+          <DetailItem title="Created" content={log.airports_created} />
+          <DetailItem title="Updated" content={log.airports_updated} />
         </Grid>
         <Box sx={{ mt: 3 }}>
-          <Typography variant="h6">IATA Codes Criados</Typography>
+          <Typography variant="h6">Created IATA Codes</Typography>
           <Paper variant="outlined" sx={{ p: 2, maxHeight: 150, overflow: 'auto', mt: 1, bgcolor: '#f5f5f5' }}>
-            {log.created_iatas.length > 0 ? log.created_iatas.join(', ') : 'Nenhum'}
+            {log.created_iatas.length > 0 ? log.created_iatas.join(', ') : 'None'}
           </Paper>
         </Box>
         <Box sx={{ mt: 2 }}>
-          <Typography variant="h6">IATA Codes Atualizados</Typography>
+          <Typography variant="h6">Updated IATA Codes</Typography>
           <Paper variant="outlined" sx={{ p: 2, maxHeight: 150, overflow: 'auto', mt: 1, bgcolor: '#f5f5f5' }}>
-            {log.updated_iatas.length > 0 ? log.updated_iatas.join(', ') : 'Nenhum'}
+            {log.updated_iatas.length > 0 ? log.updated_iatas.join(', ') : 'None'}
           </Paper>
         </Box>
         {log.error_message && (
           <Box sx={{ mt: 2 }}>
-            <Typography variant="h6" color="error">Mensagem de Erro</Typography>
+            <Typography variant="h6" color="error">Error Message</Typography>
             <Paper variant="outlined" sx={{ p: 2, mt: 1, bgcolor: '#fff0f0' }}>
               <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{log.error_message}</pre>
             </Paper>
