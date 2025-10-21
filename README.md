@@ -69,12 +69,12 @@ curl http://localhost:8000/api/airports/
 ### Import Airports
 ```bash
 curl -X POST http://localhost:8000/api/airports/import/ \
-  -d "user=demo&password=swnvlD"
+  -d "user={user}&password={password}"
 ```
 
 ### View Logs (Protected)
 ```bash
-curl -H "Authorization: Token pzrvlDwoCwlzrWJmOzviqvOWtm4dkvuc" \
+curl -H "Authorization: Token {token}" \
   "http://localhost:8000/api/logs/?level=ERROR"
 ```
 
